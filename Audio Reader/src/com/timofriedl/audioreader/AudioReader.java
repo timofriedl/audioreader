@@ -99,7 +99,7 @@ public abstract class AudioReader {
 			throws UnsupportedAudioFileException {
 		if (!audioFormat.isBigEndian()) {
 			final byte[] rev = new byte[sampleBytes.length];
-			for (int b = 0; b < sampleBytes.length / 2; b++)
+			for (int b = 0; b < sampleBytes.length; b++)
 				rev[b] = sampleBytes[sampleBytes.length - b - 1];
 			sampleBytes = rev;
 		}
@@ -129,8 +129,7 @@ public abstract class AudioReader {
 	}
 
 	/**
-	 * Prints some helpful details about the {@link AudioFormat} of the given audio
-	 * file.
+	 * Prints some helpful details about a given {@link AudioFormat}.
 	 */
 	public static void printFormatDetails(AudioFormat audioFormat) {
 		if (audioFormat == null) {
