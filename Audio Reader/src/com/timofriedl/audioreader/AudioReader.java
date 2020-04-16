@@ -36,8 +36,6 @@ public abstract class AudioReader {
 		final AudioInputStream ais = AudioSystem.getAudioInputStream(new File(path));
 		final AudioFormat audioFormat = ais.getFormat();
 
-		printFormatDetails(audioFormat);
-
 		final byte[] bytes = ais.readAllBytes();
 
 		return convertBytesToFrames(bytes, audioFormat);
@@ -134,7 +132,7 @@ public abstract class AudioReader {
 	 * Prints some helpful details about the {@link AudioFormat} of the given audio
 	 * file.
 	 */
-	private static void printFormatDetails(AudioFormat audioFormat) {
+	public static void printFormatDetails(AudioFormat audioFormat) {
 		if (audioFormat == null) {
 			System.out.println("No existing audio format.");
 			return;
