@@ -28,11 +28,12 @@ public abstract class AudioReader {
 	 * 
 	 * <code>double sampleValue = frames[frameNumber][channelNumber]</code>
 	 * 
-	 * @return the array of audio sample values
+	 * @return the {@link AudioData} instance with the sample data and audio format
+	 *         information
 	 * @throws IOException
 	 * @throws UnsupportedAudioFileException
 	 */
-	public static double[][] readFrames(String path) throws UnsupportedAudioFileException, IOException {
+	public static AudioData read(String path) throws UnsupportedAudioFileException, IOException {
 		final AudioInputStream ais = AudioSystem.getAudioInputStream(new File(path));
 		final AudioFormat audioFormat = ais.getFormat();
 
@@ -50,7 +51,7 @@ public abstract class AudioReader {
 	 * @return the formatted audio values
 	 * @throws UnsupportedAudioFileException
 	 */
-	private static double[][] convertBytesToFrames(byte[] bytes, AudioFormat audioFormat)
+	private static AudioData convertBytesToFrames(byte[] bytes, AudioFormat audioFormat)
 			throws UnsupportedAudioFileException {
 		final int bytesPerFrame = audioFormat.getFrameSize() == AudioSystem.NOT_SPECIFIED ? 1
 				: audioFormat.getFrameSize();
@@ -61,7 +62,7 @@ public abstract class AudioReader {
 			frames[f] = convertFrameBytesToFrameSamples(
 					Arrays.copyOfRange(bytes, f * bytesPerFrame, (f + 1) * bytesPerFrame), audioFormat);
 
-		return frames;
+		return new AudioData(frames, audioFormat);
 	}
 
 	/**
@@ -126,24 +127,6 @@ public abstract class AudioReader {
 		}
 
 		return 2.0 * sampleInt.doubleValue() / maxInt.doubleValue() - 1.0;
-	}
-
-	/**
-	 * Prints some helpful details about a given {@link AudioFormat}.
-	 */
-	public static void printFormatDetails(AudioFormat audioFormat) {
-		if (audioFormat == null) {
-			System.out.println("No existing audio format.");
-			return;
-		}
-
-		System.out.println("Channels:\t" + audioFormat.getChannels());
-		System.out.println("Frame rate:\t" + audioFormat.getFrameRate() + " Hz");
-		System.out.println("Frame size:\t" + audioFormat.getFrameSize() + " Bytes");
-		System.out.println("Sample rate:\t" + audioFormat.getSampleRate() + " Hz");
-		System.out.println("Sample size:\t" + audioFormat.getSampleSizeInBits() + " bits");
-		System.out.println("Encoding:\t" + audioFormat.getEncoding());
-		System.out.println("Big Endian:\t" + audioFormat.isBigEndian());
 	}
 
 }
