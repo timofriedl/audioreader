@@ -21,8 +21,8 @@ public abstract class AudioReader {
 
 	/**
 	 * Reads the *.wav file at the given {@link #path} and converts the audio data
-	 * to an array of <code>double</code> values for each audio channel in range
-	 * [-1.0, 1.0]</br>
+	 * to an {@link AudioData} instance with formatted <code>double</code> values
+	 * for each audio channel in range [-1.0, 1.0]</br>
 	 * 
 	 * Each sample value is stored as following:</br>
 	 * 
@@ -43,8 +43,7 @@ public abstract class AudioReader {
 	}
 
 	/**
-	 * Converts raw audio byte values to an array of formatted audio values for each
-	 * frame and channel.
+	 * Converts raw audio byte values to an {@link AudioData} instance.
 	 * 
 	 * @param bytes       the raw audio bytes
 	 * @param audioFormat the {@link AudioFormat}
